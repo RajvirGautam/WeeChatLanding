@@ -99,23 +99,23 @@ export default function WeeChatLanding() {
           visibleSections.hero ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
       >
-        <div className="max-w-5xl mx-auto text-center relative z-10">
-          <h1 className="text-7xl md:text-9xl font-bold mb-6 leading-tight">
-            Welcome to{' '}
-            <span 
-              className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent"
-              style={{ fontFamily: "'Dancing Script', cursive" }}
-            >
-              Wee-Chat
-            </span>
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto">
-            Share memes, connect instantly, and chat in real-time. Your new favorite social experience starts here.
-          </p>
-          <button className="px-10 py-4 text-lg rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 transition-all duration-300 shadow-2xl shadow-blue-500/50 hover:scale-105 transform">
-            Get Started
-          </button>
-        </div>
+       <div className="max-w-5xl mx-auto text-center relative z-10">
+  <h1 className="text-7xl md:text-9xl font-bold mb-6 leading-tight">
+    <span className="block">Welcome to</span>
+    <span
+      className="block mt-2 bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent"
+      style={{ fontFamily: "'Dancing Script', cursive" }}
+    >
+      Wee-Chat
+    </span>
+  </h1>
+  <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto">
+    Share memes, connect instantly, and chat in real-time. Your new favorite social experience starts here.
+  </p>
+  <button className="px-10 py-4 text-lg rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 transition-all duration-300 shadow-2xl shadow-blue-500/50 hover:scale-105 transform">
+    Get Started
+  </button>
+</div>
       </section>
 
       {/* Experience Section */}
