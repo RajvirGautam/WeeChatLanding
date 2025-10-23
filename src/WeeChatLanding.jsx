@@ -217,7 +217,7 @@ export default function WeeChatLanding() {
                 <Linkedin className="w-6 h-6" />
               </a>
               <a 
-                href="#" 
+                href="https://github.com/khushik17" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-purple-400 transition-colors duration-300"
