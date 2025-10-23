@@ -99,10 +99,10 @@ export default function WeeChatLanding() {
           visibleSections.hero ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
       >
- <h1 className="text-7xl md:text-9xl font-bold mb-6 leading-tight">
-  Welcome to <br />
+<h1 className="text-7xl md:text-9xl font-bold mb-6 leading-tight text-center">
+  <span className="block">Welcome to</span>
   <span 
-    className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent"
+    className="block bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent"
     style={{ fontFamily: "'Dancing Script', cursive" }}
   >
     Wee-Chat
