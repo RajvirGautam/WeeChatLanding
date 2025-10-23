@@ -209,8 +209,7 @@ export default function WeeChatLanding() {
           <div className="flex flex-col items-center space-y-4">
             <div className="flex items-center space-x-6">
               <a 
-                href="#" 
-                target="_blank" 
+                href="https://www.linkedin.com/in/khushi-kabra-368b8b2b3/" 
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-blue-400 transition-colors duration-300"
               >
@@ -218,7 +217,6 @@ export default function WeeChatLanding() {
               </a>
               <a 
                 href="https://github.com/khushik17" 
-                target="_blank" 
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-purple-400 transition-colors duration-300"
               >
