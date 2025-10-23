@@ -35,7 +35,7 @@ export default function WeeChatLanding() {
   }, []);
 
   const sectionClass = (section) =>
-    `transition-all duration-1100 ${
+    `transition-all duration-900 ${
       visibleSections[section] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
     }`;
 
