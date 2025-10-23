@@ -1,27 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MessageCircle, Heart, Users, Zap, Linkedin, Github } from 'lucide-react';
+import { MessageCircle, Heart, Users, Linkedin, Github } from 'lucide-react';
 
 export default function WeeChatLanding() {
   const [scrollY, setScrollY] = useState(0);
   const [visibleSections, setVisibleSections] = useState({});
   const sectionRefs = useRef({});
 
+  // Track scroll for aurora effect
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Intersection Observer to toggle visibility on scroll in/out
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisibleSections((prev) => ({
-              ...prev,
-              [entry.target.dataset.section]: true,
-            }));
-          }
+          setVisibleSections((prev) => ({
+            ...prev,
+            [entry.target.dataset.section]: entry.isIntersecting,
+          }));
         });
       },
       { threshold: 0.1 }
@@ -34,13 +34,17 @@ export default function WeeChatLanding() {
     return () => observer.disconnect();
   }, []);
 
+  const sectionClass = (section) =>
+    `transition-all duration-700 ${
+      visibleSections[section] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+    }`;
+
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
       {/* Northern Lights Aurora Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute inset-0">
-          {/* Aurora layers with northern lights colors */}
-          <div 
+          <div
             className="absolute top-0 left-0 w-full h-full opacity-60"
             style={{
               background: `
@@ -54,7 +58,7 @@ export default function WeeChatLanding() {
               animation: 'aurora 20s ease-in-out infinite',
             }}
           />
-          <div 
+          <div
             className="absolute top-0 left-0 w-full h-full opacity-40"
             style={{
               background: `
@@ -78,7 +82,7 @@ export default function WeeChatLanding() {
               <MessageCircle className="w-8 h-8 text-blue-400" />
               <span className="text-2xl font-bold">Wee-Chat</span>
             </div>
-            
+
             <div className="flex items-center space-x-4">
               <button className="px-6 py-2 rounded-full backdrop-blur-xl bg-white/10 border border-white/30 hover:bg-white/20 hover:border-white/40 transition-all duration-300 shadow-lg shadow-black/20">
                 Login
@@ -92,39 +96,35 @@ export default function WeeChatLanding() {
       </nav>
 
       {/* Hero Section */}
-      <section 
+      <section
         ref={(el) => (sectionRefs.current.hero = el)}
         data-section="hero"
-        className={`relative min-h-screen flex items-center justify-center px-6 pt-20 transition-all duration-1000 ${
-          visibleSections.hero ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-        }`}
+        className={`relative min-h-screen flex items-center justify-center px-6 pt-20 ${sectionClass('hero')}`}
       >
-       <div className="max-w-5xl mx-auto text-center relative z-10">
-  <h1 className="text-7xl md:text-9xl font-bold mb-6 leading-tight">
-    <span className="block">Welcome to</span>
-    <span
-      className="block mt-2 bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent"
-      style={{ fontFamily: "'Dancing Script', cursive" }}
-    >
-      Wee-Chat
-    </span>
-  </h1>
-  <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto">
-    Share memes, connect instantly, and chat in real-time. Your new favorite social experience starts here.
-  </p>
-  <button className="px-10 py-4 text-lg rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 transition-all duration-300 shadow-2xl shadow-blue-500/50 hover:scale-105 transform">
-    Get Started
-  </button>
-</div>
+        <div className="max-w-5xl mx-auto text-center relative z-10">
+          <h1 className="text-7xl md:text-9xl font-bold mb-6 leading-tight">
+            <span className="block">Welcome to</span>
+            <span
+              className="block mt-2 bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent"
+              style={{ fontFamily: "'Dancing Script', cursive" }}
+            >
+              Wee-Chat
+            </span>
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto">
+            Share memes, connect instantly, and chat in real-time. Your new favorite social experience starts here.
+          </p>
+          <button className="px-10 py-4 text-lg rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 transition-all duration-300 shadow-2xl shadow-blue-500/50 hover:scale-105 transform">
+            Get Started
+          </button>
+        </div>
       </section>
 
       {/* Experience Section */}
-      <section 
+      <section
         ref={(el) => (sectionRefs.current.experience = el)}
         data-section="experience"
-        className={`relative py-32 px-6 transition-all duration-1000 delay-200 ${
-          visibleSections.experience ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-        }`}
+        className={`relative py-32 px-6 ${sectionClass('experience')}`}
       >
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-5xl md:text-7xl font-bold mb-12 bg-gradient-to-r from-blue-200 via-purple-200 to-cyan-200 bg-clip-text text-transparent">
@@ -137,12 +137,10 @@ export default function WeeChatLanding() {
       </section>
 
       {/* Stats Section */}
-      <section 
+      <section
         ref={(el) => (sectionRefs.current.stats = el)}
         data-section="stats"
-        className={`relative py-32 px-6 transition-all duration-1000 delay-300 ${
-          visibleSections.stats ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-        }`}
+        className={`relative py-32 px-6 ${sectionClass('stats')}`}
       >
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-3 gap-12 text-center">
@@ -156,7 +154,7 @@ export default function WeeChatLanding() {
                 <p className="text-gray-400">Likes & Reactions</p>
               </div>
             </div>
-            
+
             <div className="relative">
               <div className="absolute inset-0 bg-purple-500/10 blur-3xl rounded-full" />
               <div className="relative">
@@ -167,7 +165,7 @@ export default function WeeChatLanding() {
                 <p className="text-gray-400">Connections</p>
               </div>
             </div>
-            
+
             <div className="relative">
               <div className="absolute inset-0 bg-cyan-500/10 blur-3xl rounded-full" />
               <div className="relative">
@@ -183,20 +181,14 @@ export default function WeeChatLanding() {
       </section>
 
       {/* CTA Section */}
-      <section 
+      <section
         ref={(el) => (sectionRefs.current.cta = el)}
         data-section="cta"
-        className={`relative py-32 px-6 transition-all duration-1000 delay-400 ${
-          visibleSections.cta ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-        }`}
+        className={`relative py-32 px-6 ${sectionClass('cta')}`}
       >
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-5xl md:text-6xl font-bold mb-6">
-            Ready to start?
-          </h2>
-          <p className="text-xl text-gray-300 mb-10">
-            Join the community and start sharing
-          </p>
+          <h2 className="text-5xl md:text-6xl font-bold mb-6">Ready to start?</h2>
+          <p className="text-xl text-gray-300 mb-10">Join the community and start sharing</p>
           <button className="px-12 py-5 text-xl rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 transition-all duration-300 shadow-2xl shadow-blue-500/50 hover:scale-105 transform">
             Create Account
           </button>
@@ -208,72 +200,45 @@ export default function WeeChatLanding() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col items-center space-y-4">
             <div className="flex items-center space-x-6">
-              <a 
-                href="https://www.linkedin.com/in/khushi-kabra-368b8b2b3/" 
+              <a
+                href="https://www.linkedin.com/in/khushi-kabra-368b8b2b3/"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-blue-400 transition-colors duration-300"
               >
                 <Linkedin className="w-6 h-6" />
               </a>
-              <a 
-                href="https://github.com/khushik17" 
+              <a
+                href="https://github.com/khushik17"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-purple-400 transition-colors duration-300"
               >
                 <Github className="w-6 h-6" />
               </a>
             </div>
-            <p className="text-gray-400 text-center">
-              Built for the community with ❤️ by Khushi Kabra
-            </p>
+            <p className="text-gray-400 text-center">Built for the community with ❤️ by Khushi Kabra</p>
           </div>
         </div>
       </footer>
 
       <style jsx>{`
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
-        
+
         @keyframes aurora {
-          0%, 100% {
-            transform: translateY(0) translateX(0);
-            opacity: 0.6;
-          }
-          25% {
-            transform: translateY(-10px) translateX(10px);
-            opacity: 0.5;
-          }
-          50% {
-            transform: translateY(-5px) translateX(-5px);
-            opacity: 0.7;
-          }
-          75% {
-            transform: translateY(-15px) translateX(5px);
-            opacity: 0.55;
-          }
+          0%, 100% { transform: translateY(0) translateX(0); opacity: 0.6; }
+          25% { transform: translateY(-10px) translateX(10px); opacity: 0.5; }
+          50% { transform: translateY(-5px) translateX(-5px); opacity: 0.7; }
+          75% { transform: translateY(-15px) translateX(5px); opacity: 0.55; }
         }
-        
+
         @keyframes aurora2 {
-          0%, 100% {
-            transform: translateY(0) translateX(0);
-            opacity: 0.4;
-          }
-          33% {
-            transform: translateY(-8px) translateX(-8px);
-            opacity: 0.5;
-          }
-          66% {
-            transform: translateY(-12px) translateX(8px);
-            opacity: 0.35;
-          }
+          0%, 100% { transform: translateY(0) translateX(0); opacity: 0.4; }
+          33% { transform: translateY(-8px) translateX(-8px); opacity: 0.5; }
+          66% { transform: translateY(-12px) translateX(8px); opacity: 0.35; }
         }
-        
+
         @keyframes shine {
-          0%, 100% {
-            transform: translateX(-100%);
-          }
-          50% {
-            transform: translateX(100%);
-          }
+          0%, 100% { transform: translateX(-100%); }
+          50% { transform: translateX(100%); }
         }
       `}</style>
     </div>
