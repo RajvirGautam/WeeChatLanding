@@ -6,14 +6,14 @@ export default function WeeChatLanding() {
   const [visibleSections, setVisibleSections] = useState({});
   const sectionRefs = useRef({});
 
-  // Track scroll for aurora effect
+  // Scroll tracking for aurora
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Intersection Observer to toggle visibility on scroll in/out
+  // IntersectionObserver for fade in/out
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -34,10 +34,11 @@ export default function WeeChatLanding() {
     return () => observer.disconnect();
   }, []);
 
-  const sectionClass = (section) =>
-    `transition-all duration-900 ${
-      visibleSections[section] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-    }`;
+  const sectionStyle = (section) => ({
+    opacity: visibleSections[section] ? 1 : 0,
+    transform: visibleSections[section] ? 'translateY(0)' : 'translateY(48px)',
+    transition: 'opacity 1s ease-in-out, transform 1s ease-in-out',
+  });
 
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
@@ -74,7 +75,7 @@ export default function WeeChatLanding() {
         </div>
       </div>
 
-      {/* Liquid Glossy Navbar */}
+      {/* Navbar */}
       <nav className="fixed top-0 w-full z-50">
         <div className="relative backdrop-blur-2xl bg-gradient-to-r from-black/60 via-black/70 to-black/60 border-b border-white/20 shadow-lg shadow-black/50">
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between relative">
@@ -99,7 +100,8 @@ export default function WeeChatLanding() {
       <section
         ref={(el) => (sectionRefs.current.hero = el)}
         data-section="hero"
-        className={`relative min-h-screen flex items-center justify-center px-6 pt-20 ${sectionClass('hero')}`}
+        className="relative min-h-screen flex items-center justify-center px-6 pt-20"
+        style={sectionStyle('hero')}
       >
         <div className="max-w-5xl mx-auto text-center relative z-10">
           <h1 className="text-7xl md:text-9xl font-bold mb-6 leading-tight">
@@ -124,7 +126,8 @@ export default function WeeChatLanding() {
       <section
         ref={(el) => (sectionRefs.current.experience = el)}
         data-section="experience"
-        className={`relative py-32 px-6 ${sectionClass('experience')}`}
+        className="relative py-32 px-6"
+        style={sectionStyle('experience')}
       >
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-5xl md:text-7xl font-bold mb-12 bg-gradient-to-r from-blue-200 via-purple-200 to-cyan-200 bg-clip-text text-transparent">
@@ -140,42 +143,27 @@ export default function WeeChatLanding() {
       <section
         ref={(el) => (sectionRefs.current.stats = el)}
         data-section="stats"
-        className={`relative py-32 px-6 ${sectionClass('stats')}`}
+        className="relative py-32 px-6"
+        style={sectionStyle('stats')}
       >
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-3 gap-12 text-center">
-            <div className="relative">
-              <div className="absolute inset-0 bg-blue-500/10 blur-3xl rounded-full" />
-              <div className="relative">
-                <Heart className="w-12 h-12 text-blue-400 mx-auto mb-4" />
-                <h3 className="text-5xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-                  Unlimited
-                </h3>
-                <p className="text-gray-400">Likes & Reactions</p>
+            {[
+              { icon: Heart, title: 'Unlimited', subtitle: 'Likes & Reactions', color: 'blue' },
+              { icon: Users, title: 'Real-Time', subtitle: 'Connections', color: 'purple' },
+              { icon: MessageCircle, title: 'Instant', subtitle: 'Messaging', color: 'cyan' },
+            ].map(({ icon: Icon, title, subtitle, color }, idx) => (
+              <div className="relative" key={idx}>
+                <div className={`absolute inset-0 bg-${color}-500/10 blur-3xl rounded-full`} />
+                <div className="relative">
+                  <Icon className={`w-12 h-12 text-${color}-400 mx-auto mb-4`} />
+                  <h3 className={`text-5xl font-bold mb-2 bg-gradient-to-r from-${color}-400 to-blue-400 bg-clip-text text-transparent`}>
+                    {title}
+                  </h3>
+                  <p className="text-gray-400">{subtitle}</p>
+                </div>
               </div>
-            </div>
-
-            <div className="relative">
-              <div className="absolute inset-0 bg-purple-500/10 blur-3xl rounded-full" />
-              <div className="relative">
-                <Users className="w-12 h-12 text-purple-400 mx-auto mb-4" />
-                <h3 className="text-5xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-                  Real-Time
-                </h3>
-                <p className="text-gray-400">Connections</p>
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="absolute inset-0 bg-cyan-500/10 blur-3xl rounded-full" />
-              <div className="relative">
-                <MessageCircle className="w-12 h-12 text-cyan-400 mx-auto mb-4" />
-                <h3 className="text-5xl font-bold mb-2 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                  Instant
-                </h3>
-                <p className="text-gray-400">Messaging</p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -184,7 +172,8 @@ export default function WeeChatLanding() {
       <section
         ref={(el) => (sectionRefs.current.cta = el)}
         data-section="cta"
-        className={`relative py-32 px-6 ${sectionClass('cta')}`}
+        className="relative py-32 px-6"
+        style={sectionStyle('cta')}
       >
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-5xl md:text-6xl font-bold mb-6">Ready to start?</h2>
@@ -224,21 +213,15 @@ export default function WeeChatLanding() {
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
 
         @keyframes aurora {
-          0%, 100% { transform: translateY(0) translateX(0); opacity: 0.6; }
-          25% { transform: translateY(-10px) translateX(10px); opacity: 0.5; }
-          50% { transform: translateY(-5px) translateX(-5px); opacity: 0.7; }
-          75% { transform: translateY(-15px) translateX(5px); opacity: 0.55; }
+          0%,100%{transform:translateY(0) translateX(0);opacity:.6}
+          25%{transform:translateY(-10px) translateX(10px);opacity:.5}
+          50%{transform:translateY(-5px) translateX(-5px);opacity:.7}
+          75%{transform:translateY(-15px) translateX(5px);opacity:.55}
         }
-
         @keyframes aurora2 {
-          0%, 100% { transform: translateY(0) translateX(0); opacity: 0.4; }
-          33% { transform: translateY(-8px) translateX(-8px); opacity: 0.5; }
-          66% { transform: translateY(-12px) translateX(8px); opacity: 0.35; }
-        }
-
-        @keyframes shine {
-          0%, 100% { transform: translateX(-100%); }
-          50% { transform: translateX(100%); }
+          0%,100%{transform:translateY(0) translateX(0);opacity:.4}
+          33%{transform:translateY(-8px) translateX(-8px);opacity:.5}
+          66%{transform:translateY(-12px) translateX(8px);opacity:.35}
         }
       `}</style>
     </div>
